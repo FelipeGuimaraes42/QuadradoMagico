@@ -27,9 +27,22 @@ void removediagonal(short int n, short int mat[n][n], short int *vet){
     aux=0;
     for(i=0; i<n; i++){
         for(j=0; j<n; j++){
-            if((i==j) || (i+j==3)){
+            if((i==j) || (i+j==n-1)){
                 vet[aux]= mat[i][j];
                 mat[i][j]= 0;
+                aux++;
+            }
+        }
+    }
+}
+
+void trocadiagonal(short int n, short int mat[n][n], short int *vet){
+    short int l, c, aux;
+    aux=0;
+    for(l=n-1; l>=0; l--){
+        for(c=n-1; c>=0; c--){
+            if(mat[l][c]==0){
+                mat[l][c]= vet[aux];
                 aux++;
             }
         }
@@ -88,7 +101,6 @@ void qmagimp(short int n, short int quad[n][n]){
             }
         }
     }
-    //printamatriz(n, quad);
 }
 
 void preencheordemseis(short int quad[6][6]){
@@ -113,7 +125,7 @@ void preencheordemseis(short int quad[6][6]){
     }
 }
 
-void trocaordemseis(short int quad[6][6]){
+void trocaordemseis(short int n, short int quad[n][n]){
     short int aux;
     aux= quad[0][0];
     quad[0][0]= quad[3][0];
@@ -127,27 +139,17 @@ void trocaordemseis(short int quad[6][6]){
 }
 
 void qmagpar(short int n, short int quad[n][n]){
-    short int l, c, aux;
-    aux=0;
     if(n==4){
-        short int vet[8];
+        short int vet[n*2];
         matrizcontinua(n, quad);
         removediagonal(n, quad, vet);
-        for(l=n-1; l>=0; l--){
-            for(c=n-1; c>=0; c--){
-                if(quad[l][c]==0){
-                    quad[l][c]= vet[aux];
-                    aux++;
-                }
-            }
-        }
-        printamatriz(n, quad);
+        trocadiagonal(n, quad, vet);
     }else{
         zeramatriz(n, quad);
-        qmagimp(3, quad);
+        qmagimp(n/2, quad);
         organizaposicao(n, quad);
         preencheordemseis(quad);
-        trocaordemseis(quad);
+        trocaordemseis(n, quad);
     }
 }
 
@@ -160,10 +162,9 @@ void main(){
     soma= ((n*n+1)*n)/2;
     printf("Soma= %hi\n", soma);
     short int quad[n][n];
-    if(n%2==1){
+    if(n%2==1)
         qmagimp(n, quad);
-    }else{
+    else
         qmagpar(n, quad);
-    }
     printamatriz(n, quad);
 }
