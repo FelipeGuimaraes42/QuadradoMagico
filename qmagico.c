@@ -61,7 +61,7 @@ void printamatriz(short int n, short int mat[n][n]){
 }
 
 void organizaposicao(short int n, short int quad[n][n]){
-    short int i, j;
+    short int i;
     for(i=0; i<3; i++){
         quad[2][i]= quad[1][i];
         quad[1][i]= quad[0][i+3];
@@ -153,7 +153,7 @@ void qmagpar(short int n, short int quad[n][n]){
     }
 }
 
-void main(){
+int main(){
     short int n, soma;
     do{
         printf("Digite a ordem do quadrado magico (Entre 3 e 6): ");
@@ -167,4 +167,6 @@ void main(){
     else
         qmagpar(n, quad);
     printamatriz(n, quad);
+
+    return 0;
 }
