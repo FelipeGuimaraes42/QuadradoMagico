@@ -47,8 +47,16 @@ void printamatriz(short int n, short int mat[n][n]){
     printf("\n");
 }
 
-void qmagimp(short int n){
-    short int quad[n][n];
+void organizaposicao(short int n, short int quad[n][n]){
+    short int i, j;
+    for(i=0; i<3; i++){
+        quad[2][i]= quad[1][i];
+        quad[1][i]= quad[0][i+3];
+        quad[0][i+3]= 0;
+    }
+}
+
+void qmagimp(short int n, short int quad[n][n]){
     zeramatriz(n, quad);
     short int l, c, cont;
     l=0;
@@ -80,11 +88,45 @@ void qmagimp(short int n){
             }
         }
     }
-    printamatriz(n, quad);
+    //printamatriz(n, quad);
 }
 
-void qmagpar(short int n){
-    short int quad[n][n];
+void preencheordemseis(short int quad[6][6]){
+    short int l, c, soma;
+    soma=18;
+    for(l=0; l<3; l++){
+        for(c=3; c<6; c++){
+            quad[l][c]= soma+quad[l][c-3];
+        }
+    }
+    soma=27;
+    for(l=3; l<6; l++){
+        for(c=0; c<3; c++){
+            quad[l][c]= soma+quad[l-3][c];
+        }
+    }
+    soma=9;
+    for(l=3; l<6; l++){
+        for(c=3; c<6; c++){
+            quad[l][c]= soma+quad[l-3][c-3];
+        }
+    }
+}
+
+void trocaordemseis(short int quad[6][6]){
+    short int aux;
+    aux= quad[0][0];
+    quad[0][0]= quad[3][0];
+    quad[3][0]= aux;
+    aux= quad[1][1];
+    quad[1][1]= quad[4][1];
+    quad[4][1]= aux;
+    aux= quad[2][0];
+    quad[2][0]= quad[5][0];
+    quad[5][0]= aux;
+}
+
+void qmagpar(short int n, short int quad[n][n]){
     short int l, c, aux;
     aux=0;
     if(n==4){
@@ -101,7 +143,11 @@ void qmagpar(short int n){
         }
         printamatriz(n, quad);
     }else{
-        qmagimp(3);
+        zeramatriz(n, quad);
+        qmagimp(3, quad);
+        organizaposicao(n, quad);
+        preencheordemseis(quad);
+        trocaordemseis(quad);
     }
 }
 
@@ -113,9 +159,11 @@ void main(){
     }while(n<MIN || n>MAX);
     soma= ((n*n+1)*n)/2;
     printf("Soma= %hi\n", soma);
+    short int quad[n][n];
     if(n%2==1){
-        qmagimp(n);
+        qmagimp(n, quad);
     }else{
-        qmagpar(n);
+        qmagpar(n, quad);
     }
+    printamatriz(n, quad);
 }
