@@ -174,12 +174,12 @@ int main(){
     short int n, soma;
     //Valida a entrada de dados
     do{
-        printf("Digite a ordem do quadrado magico (Entre 3 e 6): ");
+        printf("\nDigite a ordem do quadrado magico (Entre 3 e 6): ");
         scanf("%hi", &n);
     }while(n<MIN || n>MAX);
     //Calcula a soma mágica
     soma= ((n*n+1)*n)/2;
-    printf("Soma= %hi\n", soma);
+    printf("\nSoma Magica= %hi\n", soma);
     short int quad[n][n];
     //Quadrados mágicos pares e ímpares são implementados de formas diferentes
     if(n%2==1)
